@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+
+  quick_mysql:
+    image: mysql
+    ports:
+      - 3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootroot
+      - MYSQL_DATABASE=quick_pass
+      - TZ=Asia/Shanghai
+    volumes:
+      - ~/data2/docker-mysql:/var/lib/mysql           # 挂载数据目录
+      - ~/data2/docker-mysql-config:/etc/mysql/conf.d      # 挂载配置文件目录
+  #redis	  
+  quick_redis:
+    image: redis:latest
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ~/docker2/redis_test/conf:/usr/local/etc/redis
+      - ~/docker2/redis_test/data:/data
+    command:
+      redis-server
+  #图片服务器
+  quick_minio:
+    image: minio/minio:latest
+    ports:
+      - 9000:9000
+    volumes:
+      - ~/docker2/minio_test:/data
+    environment:
+      - MINIO_ACCESS_KEY=admin
+      - MINIO_SECRET_KEY=admin?123456
+      - TZ=Asia/Shanghai
+    command: server /data
+  #闪付后端	
+  quick_pass_v1:
+    build: .
+    image:  quickpass:v3
+    ports: 
+      - "8000:8000"
+    volumes:
+      - ./conf1:/app/conf
+    depends_on:
+      - quick_mysql
+      - quick_redis
+      - quick_minio
