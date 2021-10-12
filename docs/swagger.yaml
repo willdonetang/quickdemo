@@ -1,0 +1,11 @@
+info:
+  contact: {}
+  description: An example of gin
+  license:
+    name: MIT
+    url: https://Pay/blob/master/LICENSE
+  termsOfService: https://github.com/EDDYCJY/go-gin-example
+  title: Golang Gin API
+  version: "1.0"
+paths: {}
+swagger: "2.0"
