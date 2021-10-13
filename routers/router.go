@@ -9,6 +9,7 @@ import (
 	"net/http"
 	_ "quickdemo/docs"
 	"quickdemo/pkg/app"
+	"quickdemo/pkg/jwt"
 	"quickdemo/pkg/logf"
 	"quickdemo/pkg/util/const"
 	"strings"
@@ -22,6 +23,7 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Recovery(), initLog(), cors())
 
 	r.GET("/test", test)
+	r.GET("/jwttest", jwt.JWT(), test)
 
 	return r
 }
